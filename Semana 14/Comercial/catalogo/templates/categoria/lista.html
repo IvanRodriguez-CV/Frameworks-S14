@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Categorías | Catálogo comercial{% endblock %}
+
+{% block contenido %}
+  <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-slate-900">Categorías</h1>
+      <p class="mt-1 text-slate-600">Administra las categorías del catálogo.</p>
+    </div>
+    <a class="rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700"
+       href="{% url 'add_categoria' %}">
+      Agregar categoría
+    </a>
+  </div>
+
+  {% if categorias %}
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <ul class="divide-y divide-slate-200">
+        {% for categoria in categorias %}
+          <li class="flex flex-wrap items-center justify-between gap-4 p-5">
+            <div>
+              <h2 class="font-semibold text-slate-900">
+                {{ categoria.nombre }}
+                <span class="ml-1 text-sm font-normal text-slate-500">#{{ categoria.id }}</span>
+              </h2>
+              {% if categoria.descripcion %}
+                <p class="mt-1 text-slate-600">{{ categoria.descripcion }}</p>
+              {% endif %}
+              <p class="mt-2 text-sm text-slate-500">
+                Creada: {{ categoria.created_at|date:"d/m/Y" }}
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <a class="font-medium text-indigo-700 hover:underline"
+                 href="{% url 'update_categoria' categoria.id %}">Editar</a>
+              <form method="post" action="{% url 'delete_categoria' categoria.id %}">
+                {% csrf_token %}
+                <button class="font-medium text-red-700 hover:underline" type="submit">
+                  Eliminar
+                </button>
+              </form>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p class="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600">
+      Aún no hay categorías registradas.
+    </p>
+  {% endif %}
+{% endblock %}
