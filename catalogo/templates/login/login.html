@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block titulo %}Iniciar sesión | Catálogo comercial{% endblock %}
+
+{% block contenido %}
+  <form method="post" action="{% url 'login' %}" class="w-96">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    <button type="submit" class="p-2 my-4 bg-blue-600 text-white hover:bg-blue-700 rounded">
+      Guardar
+    </button>
+  </form>
+{% endblock %}

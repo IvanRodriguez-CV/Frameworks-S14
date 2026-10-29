@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Reporte de productos</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        display: flex;
+        justify-content: center;
+        color: #2563eb;
+      }
+      p {
+        margin-bottom: 8px;
+      }
+      hr {
+        margin: 16px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reporte de productos</h1>
+    {% for producto in productos %}
+      <p>Nombre: {{ producto.nombre }}</p>
+      <p>Descripción: {{ producto.descripcion }}</p>
+      <p>Precio de compra: {{ producto.precio_compra }}</p>
+      <p>Precio de venta: {{ producto.precio_venta }}</p>
+      <p>Stock: {{ producto.stock }}</p>
+      <p>Categoría: {{ producto.categoria.nombre }}</p>
+      <hr>
+    {% endfor %}
+  </body>
+</html>

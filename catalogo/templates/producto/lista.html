@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block titulo %}Productos{% endblock titulo %}
+
+{% block contenido %}
+  <h1 class="font-bold text-balance">Lista de productos</h1>
+  <a class="p-2 bg-blue-600 my-4 inline-block text-white rounded hover:bg-blue-700"
+     href="{% url 'add_producto' %}">
+    Agregar Producto
+  </a>
+  <a class="p-2 bg-blue-600 my-4 inline-block text-white rounded hover:bg-blue-700"
+     href="{% url 'reporte_producto' %}"
+     target="_blank">
+    Generar reporte
+  </a>
+
+  {% if productos %}
+    <div class="grid grid-cols-7 gap-2 border-b max-w-4xl font-bold">
+      <p>Nombre</p>
+      <p>Precio Venta</p>
+      <p>Precio Compra</p>
+      <p>Stock</p>
+      <p>Imagen</p>
+      <p>Eliminar</p>
+      <p>Actualizar</p>
+    </div>
+    {% for producto in productos %}
+      <div class="grid grid-cols-7 gap-2 max-w-4xl hover:bg-gray-300 items-center">
+        <p>{{ producto.nombre }}</p>
+        <p>{{ producto.precio_venta }}</p>
+        <p>{{ producto.precio_compra }}</p>
+        <p>{{ producto.stock }}</p>
+        {% if producto.imagen %}
+          <img class="w-16 h-16 shadow"
+               src="{{ producto.imagen.url }}"
+               alt="{{ producto.nombre }}">
+        {% else %}
+          <p>no hay imagen disponible</p>
+        {% endif %}
+        <a class="cursor-pointer hover:text-blue-600"
+           href="{% url 'delete_producto' producto.id %}">Eliminar</a>
+        <a class="cursor-pointer hover:text-blue-600"
+           href="{% url 'update_producto' producto.id %}">
+          Actualizar
+        </a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No hay productos registrados</p>
+  {% endif %}
+
+  <nav class="flex flex-wrap items-center gap-2 my-4">
+    {% if productos.has_previous %}
+      <a class="px-3 py-1 text-blue-600 hover:bg-blue-50" href="?page=1">Primera</a>
+      <a class="px-3 py-1 text-blue-600 hover:bg-blue-50"
+         href="?page={{ productos.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span class="px-3 py-1 text-gray-600">
+      Página {{ productos.number }} de {{ productos.paginator.num_pages }}
+    </span>
+    {% if productos.has_next %}
+      <a class="px-3 py-1 text-blue-600 hover:bg-blue-50"
+         href="?page={{ productos.next_page_number }}">Siguiente</a>
+      <a class="px-3 py-1 text-blue-600 hover:bg-blue-50"
+         href="?page={{ productos.paginator.num_pages }}">Última</a>
+    {% endif %}
+  </nav>
+
+{% endblock %}

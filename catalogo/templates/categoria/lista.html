@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titulo %}Categoria{% endblock titulo %}
+
+{% block contenido %}
+  <h1 class="font-bold text-balance">Lista de Categorias</h1>
+  <a
+    href="{% url 'add_categoria' %}"
+    class="p-2 bg-blue-600 my-4 inline-block text-white rounded hover:bg-blue-700"
+  >
+    Agregar categoria
+  </a>
+  <div class="grid grid-cols-3 gap-2 border-b max-w-lg font-bold">
+    <p>Nombre</p>
+    <p>Eliminar</p>
+    <p>Actualizar</p>
+  </div>
+  {% if categorias %}
+    {% for categoria in categorias %}
+      <div class="grid grid-cols-3 gap-2 max-w-lg hover:bg-gray-300">
+        <p>{{ categoria.nombre }}</p>
+        <a
+          href="{% url 'delete_categoria' categoria.id %}"
+          class="cursor-pointer hover:text-blue-600"
+        >
+          Eliminar
+        </a>
+        <a
+          href="{% url 'update_categoria' categoria.id %}"
+          class="cursor-pointer hover:text-blue-600"
+        >
+          Actualizar
+        </a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No hay categorías registradas.</p>
+  {% endif %}
+{% endblock contenido %}
